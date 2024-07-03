@@ -68,3 +68,23 @@ blog-app/
     ├──  README.md
     └──  vite.config.js
 ```
+## Flusso dell'Applicazione
+
+- L'utente accede alla home page, che carica e visualizza tutti i post.
+- L'utente può cliccare su un post per visualizzarne i dettagli.
+- Dalla navbar, l'utente può navigare alla pagina di creazione di un nuovo post.
+- Dopo la creazione di un post, l'utente viene reindirizzato alla home page.
+
+## Setup/Installazione
+
+- Clona questa repository.
+- Installa le dipendenze per frontend e backend:
+
+```bash
+cd frontend && npm install
+cd ../backend && npm install
+```
+
+- Configura il file .env nel backend con l'URL del tuo database MongoDB.
+- Avvia il backend: cd backend && npm start
+- Avvia il frontend: cd frontend && npm run dev
