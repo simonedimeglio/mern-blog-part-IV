@@ -1,0 +1,27 @@
+.post-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.post-cover {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.post-detail h1 {
+  margin: 20px 0;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.post-content {
+  line-height: 1.6;
+}

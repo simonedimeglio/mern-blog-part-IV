@@ -1,10 +1,10 @@
 import express from "express";
 import BlogPost from "../models/BlogPost.js";
-// import controlloMail from "../middlewares/controlloMail.js"; // MIDDLEWARE (commentato)
+// import controlloMail from "../middlewares/controlloMail.js"; // NON USARE - SOLO PER DIDATTICA - MIDDLEWARE (commentato)
 
 const router = express.Router();
 
-// router.use(controlloMail); // Applicazione del middleware a tutte le rotte (commentato)
+// router.use(controlloMail); // NON USARE - SOLO PER DIDATTICA - Applicazione del middleware a tutte le rotte (commentato)
 
 // GET /blogPosts: ritorna una lista di blog post
 router.get("/", async (req, res) => {
