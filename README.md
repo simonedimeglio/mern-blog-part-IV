@@ -8,13 +8,18 @@ Permette agli utenti di visualizzare, creare e interagire con i post del blog.
 
 ## Struttura del progetto
 
-```
+```zsh
 blog-app/
 │
 ├── backend/
+│   │
+│   ├── config/
+│   │   └── claudinaryConfig.js <-!NUOVO!
+│   │
 │   ├── middlewares/
 │   │   ├── controlloMail.js
-│   │   └── errorHandlers.js
+│   │   ├── errorHandlers.js
+│   │   └── upload.js <-!NUOVO!
 │   │
 │   ├── models/
 │   │   ├── Author.js
@@ -24,7 +29,9 @@ blog-app/
 │   │
 │   ├── routes/
 │   │   ├── authorRoutes.js
-│   │   └── blogPostRoutes.js
+│   │   └── blogPostRoutes.js <-!MODIFICATO!
+│   │
+│   ├── uploads/
 │   │
 │   ├── .env
 │   ├── .gitignore
@@ -46,14 +53,14 @@ blog-app/
     │   │
     │   ├── pages/
     │   │   ├── CreatePost.css
-    │   │   ├── CreatePost.jsx
+    │   │   ├── CreatePost.jsx <-!MODIFICATO!
     │   │   ├── Home.css
     │   │   ├── Home.jsx
     │   │   ├── PostDetail.css
     │   │   └── PostDetail.jsx
     │   │
     │   ├── services/
-    │   │   └── api.js
+│   │   └── api.js <-!MODIFICATO!
     │   │
     │   ├── App.css
     │   ├── App.jsx
@@ -68,6 +75,7 @@ blog-app/
     ├──  README.md
     └──  vite.config.js
 ```
+
 ## Flusso dell'Applicazione
 
 - L'utente accede alla home page, che carica e visualizza tutti i post.

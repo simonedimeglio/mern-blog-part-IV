@@ -13,10 +13,12 @@ export default function CreatePost() {
     title: "",
     category: "",
     content: "",
-    cover: "",
     readTime: { value: 0, unit: "minutes" },
     author: "",
   });
+
+  // Nuovo stato per gestire il file di copertina
+  const [coverFile, setCoverFile] = useState(null);
 
   // Hook per la navigazione
   const navigate = useNavigate();
@@ -36,12 +38,35 @@ export default function CreatePost() {
     }
   };
 
+  // Nuovo gestore per il cambiamento del file di copertina
+  const handleFileChange = (e) => {
+    setCoverFile(e.target.files[0]);
+  };
+
   // Gestore per l'invio del form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Creiamo un oggetto FormData per inviare sia i dati del post che il file
+      const formData = new FormData();
+
+      // Aggiungiamo tutti i campi del post al FormData
+      Object.keys(post).forEach((key) => {
+        if (key === "readTime") {
+          formData.append("readTime[value]", post.readTime.value);
+          formData.append("readTime[unit]", post.readTime.unit);
+        } else {
+          formData.append(key, post[key]);
+        }
+      });
+
+      // Aggiungiamo il file di copertina se presente
+      if (coverFile) {
+        formData.append("cover", coverFile);
+      }
+
       // Invia i dati del post al backend
-      await createPost(post);
+      await createPost(formData);
       // Naviga alla rotta della home dopo la creazione del post
       navigate("/");
     } catch (error) {
@@ -89,15 +114,14 @@ export default function CreatePost() {
             required
           />
         </div>
-        {/* Campo per l'URL dell'immagine di copertina del post */}
+        {/* Campo per l'upload del file di copertina */}
         <div className="form-group">
-          <label>URL Immagine</label>
+          <label>Immagine di copertina</label>
           <input
-            type="text"
+            type="file"
             id="cover"
             name="cover"
-            value={post.cover}
-            onChange={handleChange}
+            onChange={handleFileChange}
             required
           />
         </div>

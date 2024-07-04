@@ -11,7 +11,13 @@ const api = axios.create({
 // Funzioni per le operazioni CRUD
 export const getPosts = () => api.get("/blogPosts");
 export const getPost = (id) => api.get(`/blogPosts/${id}`);
-export const createPost = (postData) => api.post("/blogPosts", postData);
+// UPLOAD: modificata la funzione createPost per gestire FormData
+export const createPost = (postData) =>
+  api.post("/blogPosts", postData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 export const updatePost = (id, postData) =>
   api.put(`/blogPosts/${id}`, postData);
 export const deletePost = (id) => api.delete(`/blogPosts/${id}`);
