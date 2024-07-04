@@ -1,5 +1,9 @@
 import express from "express";
 import BlogPost from "../models/BlogPost.js";
+import upload from "../middlewares/upload.js"; // Import nuovo Middleware per upload (NO CLOUDINARY)
+import cloudinaryUploader from "../config/claudinaryConfig.js"; // Import dell'uploader di Cloudinary (CON CLOUDINARY)
+import { sendEmail } from "../services/emailService.js"; // Import del codice per l'invio delle mail (INVIO MAIL)
+
 // import controlloMail from "../middlewares/controlloMail.js"; // NON USARE - SOLO PER DIDATTICA - MIDDLEWARE (commentato)
 
 const router = express.Router();
@@ -12,10 +16,8 @@ router.get("/", async (req, res) => {
     let query = {};
     // Se c'è un parametro 'title' nella query, crea un filtro per la ricerca case-insensitive
     if (req.query.title) {
-      // Per fare ricerca case-insensitive:
-      query.title = { $regex: req.query.title, $options: "i" };
-      // Altrimenti per fare ricerca case-sensitive:
-      // query.title = req.query.title;
+      query.title = { $regex: req.query.title, $options: "i" }; // Per fare ricerca case-insensitive:
+      // Altrimenti per fare ricerca case-sensitive -> query.title = req.query.title;
     }
     // Cerca i blog post nel database usando il filtro (se presente)
     const blogPosts = await BlogPost.find(query);
@@ -44,18 +46,38 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /blogPosts: crea un nuovo blog post
-router.post("/", async (req, res) => {
-  // Crea una nuova istanza di BlogPost con i dati dalla richiesta
-  const blogPost = new BlogPost(req.body);
+// POST /blogPosts: crea un nuovo blog post (AGGIORNATA AD UPLOAD!)
+
+// router.post("/", upload.single("cover"), async (req, res) => {
+router.post("/", cloudinaryUploader.single("cover"), async (req, res) => {
   try {
-    // Salva il nuovo blog post nel database
-    const newBlogPost = await blogPost.save();
-    // Invia il nuovo blog post creato come risposta JSON con status 201 (Created)
-    res.status(201).json(newBlogPost);
-  } catch (err) {
-    // In caso di errore (es. validazione fallita), invia una risposta di errore
-    res.status(400).json({ message: err.message });
+    const postData = req.body;
+    if (req.file) {
+      // postData.cover = `http://localhost:5001/uploads/${req.file.filename}`;
+      postData.cover = req.file.path; // Cloudinary restituirà direttamente il suo url
+    }
+    const newPost = new BlogPost(postData);
+    await newPost.save();
+
+    // CODICE PER INVIO MAIL con MAILGUN
+    const htmlContent = `
+      <h1>Il tuo post è stato pubblicato!</h1>
+      <p>Ciao ${newPost.author},</p>
+      <p>Il tuo post "${newPost.title}" è stato pubblicato con successo.</p>
+      <p>Categoria: ${newPost.category}</p>
+      <p>Grazie per il tuo contributo al blog!</p>
+    `;
+
+    await sendEmail(
+      newPost.author, // Ovviamente assumendo che newPost.author sia l'email dell'autore
+      "Il tuo post è stato correttamente pubblicato",
+      htmlContent
+    );
+
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -66,7 +88,7 @@ router.put("/:id", async (req, res) => {
     const updatedBlogPost = await BlogPost.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }, // Opzione per restituire il documento aggiornato
+      { new: true } // Opzione per restituire il documento aggiornato
     );
     if (!updatedBlogPost) {
       // Se il blog post non viene trovato, invia una risposta 404

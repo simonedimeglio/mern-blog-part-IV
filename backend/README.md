@@ -2,13 +2,18 @@
 
 ## RECAP - Struttura del progetto
 
-```
+```zsh
 blog-app/
 │
 ├── backend/
+│   │
+│   ├── config/
+│   │   └── claudinaryConfig.js
+│   │
 │   ├── middlewares/
 │   │   ├── controlloMail.js
-│   │   └── errorHandlers.js
+│   │   ├── errorHandlers.js
+│   │   └── upload.js
 │   │
 │   ├── models/
 │   │   ├── Author.js
@@ -19,6 +24,8 @@ blog-app/
 │   ├── routes/
 │   │   ├── authorRoutes.js
 │   │   └── blogPostRoutes.js
+│   │
+│   ├── uploads/
 │   │
 │   ├── .env
 │   ├── .gitignore
