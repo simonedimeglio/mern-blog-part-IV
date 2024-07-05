@@ -47,7 +47,6 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /blogPosts: crea un nuovo blog post (AGGIORNATA AD UPLOAD!)
-
 // router.post("/", upload.single("cover"), async (req, res) => {
 router.post("/", cloudinaryUploader.single("cover"), async (req, res) => {
   try {
@@ -116,6 +115,34 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     // In caso di errore, invia una risposta di errore
     res.status(500).json({ message: err.message });
+  }
+});
+
+// PATCH /blogPosts/:blogPostId/cover: carica un'immagine di copertina per il post specificato
+router.patch("/:blogPostId/cover", cloudinaryUploader.single("cover"), async (req, res) => {
+  try {
+    // Verifica se è stato caricato un file o meno
+    if (!req.file) {
+      return res.status(400).json({ message: "Ops, nessun file caricato" });
+    }
+
+    // Cerca il blog post nel db
+    const blogPost = await BlogPost.findById(req.params.blogPostId);
+    if (!blogPost) {
+      return res.status(404).json({ message: "Blog post non trovato" });
+    }
+
+    // Aggiorna l'URL della copertina del post con l'URL fornito da Cloudinary
+    blogPost.cover = req.file.path;
+
+    // Salva le modifiche nel db
+    await blogPost.save();
+
+    // Invia la risposta con il blog post aggiornato
+    res.json(blogPost);
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento della copertina:", error);
+    res.status(500).json({ message: "Errore interno del server" });
   }
 });
 

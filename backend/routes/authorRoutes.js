@@ -1,6 +1,7 @@
 import express from "express";
 import Author from "../models/Author.js";
 import BlogPost from "../models/BlogPost.js";
+import cloudinaryUploader from "../config/claudinaryConfig.js"; // Import dell'uploader di Cloudinary (CON CLOUDINARY)
 
 const router = express.Router();
 
@@ -53,11 +54,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     // Trova e aggiorna l'autore nel database
-    const updatedAuthor = await Author.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true },
-    );
+    const updatedAuthor = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedAuthor) {
       // Se l'autore non viene trovato, invia una risposta 404
       return res.status(404).json({ message: "Autore non trovato" });
@@ -103,6 +100,34 @@ router.get("/:id/blogPosts", async (req, res) => {
   } catch (err) {
     // In caso di errore, invia una risposta di errore
     res.status(500).json({ message: err.message });
+  }
+});
+
+// PATCH /authors/:authorId/avatar: carica un'immagine avatar per l'autore specificato
+router.patch("/:authorId/avatar", cloudinaryUploader.single("avatar"), async (req, res) => {
+  try {
+    // Verifica se è stato caricato un file, se non l'ho caricato rispondo con un 400
+    if (!req.file) {
+      return res.status(400).json({ message: "Nessun file caricato" });
+    }
+
+    // Cerca l'autore nel database, se non esiste rispondo con una 404
+    const author = await Author.findById(req.params.authorId);
+    if (!author) {
+      return res.status(404).json({ message: "Autore non trovato" });
+    }
+
+    // Aggiorna l'URL dell'avatar dell'autore con l'URL fornito da Cloudinary
+    author.avatar = req.file.path;
+
+    // Salva le modifiche nel db
+    await author.save();
+
+    // Invia la risposta con l'autore aggiornato
+    res.json(author);
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento dell'avatar:", error);
+    res.status(500).json({ message: "Errore interno del server" });
   }
 });
 

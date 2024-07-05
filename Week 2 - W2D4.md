@@ -483,3 +483,7 @@ Ecco come risolvere questo problema:
 5. Aggiungi l'indirizzo email del destinatario (in questo caso, l'email dell'autore del post) alla lista degli indirizzi autorizzati.
 6. Mailgun invierà un'email di verifica all'indirizzo aggiunto. Il destinatario dovrà cliccare sul link di conferma in questa email.
 7. Una volta che l'indirizzo è stato verificato, potrai inviare email a quel destinatario utilizzando il tuo dominio sandbox.
+
+### APPROFONDIMENTO SU MULTER
+
+Nel codice abbiamo utilizzato `.single()` per quanto riguarda **Multer**, questo perchè dal form HTML carichiamo un solo file. Se avete bisogno di caricare più di un file, potete osservare la repository di multer dove viene spiegato il metodo adatto: <https://github.com/expressjs/multer>
