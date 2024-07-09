@@ -14,16 +14,16 @@ blog-app/
 ├── backend/
 │   │
 │   ├── config/
-│   │   └── claudinaryConfig.js <-!NUOVO!
+│   │   └── claudinaryConfig.js
 │   │
 │   ├── middlewares/
 │   │   ├── controlloMail.js
 │   │   ├── errorHandlers.js
-│   │   └── upload.js <-!NUOVO!
+│   │   └── upload.js
 │   │
 │   ├── models/
 │   │   ├── Author.js
-│   │   └── BlogPost.js
+│   │   └── BlogPost.js <-!MODIFICATO!
 │   │
 │   ├── node_modules/
 │   │
@@ -53,11 +53,11 @@ blog-app/
     │   │
     │   ├── pages/
     │   │   ├── CreatePost.css
-    │   │   ├── CreatePost.jsx <-!MODIFICATO!
+    │   │   ├── CreatePost.jsx
     │   │   ├── Home.css
     │   │   ├── Home.jsx
-    │   │   ├── PostDetail.css
-    │   │   └── PostDetail.jsx
+    │   │   ├── PostDetail.css <-!MODIFICATO!
+    │   │   └── PostDetail.jsx <-!MODIFICATO!
     │   │
     │   ├── services/
 │   │   └── api.js <-!MODIFICATO!
