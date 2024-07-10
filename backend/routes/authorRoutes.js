@@ -35,15 +35,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /authors: crea un nuovo autore
+// NEW! POST /authors: crea un nuovo autore
 router.post("/", async (req, res) => {
-  // Crea una nuova istanza di Author con i dati dalla richiesta
-  const author = new Author(req.body);
   try {
+    // Crea una nuova istanza di Author con i dati dalla richiesta
+    const author = new Author(req.body);
+
+    // La password verrà automaticamente hashata grazie al middleware pre-save
+    // che abbiamo aggiunto nello schema Author
+
     // Salva il nuovo autore nel database
     const newAuthor = await author.save();
+
+    // Rimuovi la password dalla risposta per sicurezza
+    const authorResponse = newAuthor.toObject();
+    delete authorResponse.password;
+
     // Invia il nuovo autore creato come risposta JSON con status 201 (Created)
-    res.status(201).json(newAuthor);
+    res.status(201).json(authorResponse);
   } catch (err) {
     // In caso di errore (es. validazione fallita), invia una risposta di errore
     res.status(400).json({ message: err.message });

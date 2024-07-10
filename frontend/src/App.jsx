@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import PostDetail from "./pages/PostDetail";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 // Importa il file CSS per gli stili dell'App
 import "./App.css";
@@ -23,6 +25,12 @@ function App() {
         <main>
           {/* Routes definisce le diverse rotte dell'applicazione */}
           <Routes>
+            {/* Route per la pagina di registrazione */}
+            <Route path="/register" element={<Register />} />
+
+            {/* Route per la pagina di login */}
+            <Route path="/login" element={<Login />} />
+
             {/* Route per la home page */}
             <Route path="/" element={<Home />} />
 

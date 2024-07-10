@@ -1,14 +1,11 @@
 import express from "express";
 import BlogPost from "../models/BlogPost.js";
-import upload from "../middlewares/upload.js"; // Import nuovo Middleware per upload (NO CLOUDINARY)
-import cloudinaryUploader from "../config/claudinaryConfig.js"; // Import dell'uploader di Cloudinary (CON CLOUDINARY)
-import { sendEmail } from "../services/emailService.js"; // Import del codice per l'invio delle mail (INVIO MAIL)
+import cloudinaryUploader from "../config/claudinaryConfig.js";
+import { sendEmail } from "../services/emailService.js"; 
+import { authMiddleware } from "../middlewares/authMiddleware.js"; // NEW! middleware di autenticazione
 
-// import controlloMail from "../middlewares/controlloMail.js"; // NON USARE - SOLO PER DIDATTICA - MIDDLEWARE (commentato)
 
 const router = express.Router();
-
-// router.use(controlloMail); // NON USARE - SOLO PER DIDATTICA - Applicazione del middleware a tutte le rotte (commentato)
 
 // GET /blogPosts: ritorna una lista di blog post
 router.get("/", async (req, res) => {
@@ -46,13 +43,15 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /blogPosts: crea un nuovo blog post (AGGIORNATA AD UPLOAD!)
-// router.post("/", upload.single("cover"), async (req, res) => {
+// NEW! Proteggi le altre rotte con il middleware di autenticazione
+router.use(authMiddleware);
+
+
+// POST /blogPosts: crea un nuovo blog post
 router.post("/", cloudinaryUploader.single("cover"), async (req, res) => {
   try {
     const postData = req.body;
     if (req.file) {
-      // postData.cover = `http://localhost:5001/uploads/${req.file.filename}`;
       postData.cover = req.file.path; // Cloudinary restituirà direttamente il suo url
     }
     const newPost = new BlogPost(postData);
@@ -188,7 +187,7 @@ router.get("/:id/comments/:commentId", async (req, res) => {
   }
 });
 
-// POST /blogPosts/:id/comments => aggiungi un nuovo commento ad un post specifico
+// modificata la funzione POST /blogPosts/:id/comments => aggiungi un nuovo commento ad un post specifico
 router.post("/:id/comments", async (req, res) => {
   try {
     // Cerca il post nel database usando l'ID fornito

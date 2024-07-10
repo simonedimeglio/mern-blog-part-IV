@@ -1,9 +1,9 @@
-// Importa useState hook da React
-import { useState } from "react";
+// NEW! Importa, oltre a useState anche useEffect
+import { useState, useEffect } from "react";
 // Importa useNavigate da react-router-dom per la navigazione programmatica
 import { useNavigate } from "react-router-dom";
-// Importo la funzione createPost dal mio file services/api
-import { createPost } from "../services/api";
+// NEW! Importo anche getMe dalle api
+import { createPost, getMe } from "../services/api";
 // Importa il file CSS per gli stili specifici di questo componente
 import "./CreatePost.css";
 
@@ -22,6 +22,20 @@ export default function CreatePost() {
 
   // Hook per la navigazione
   const navigate = useNavigate();
+
+  // NEW! useEffect per l'autenticazione
+  useEffect(() => {
+    const fetchUserEmail = async () => {
+      try {
+        const userData = await getMe();
+        setPost((prevPost) => ({ ...prevPost, author: userData.email }));
+      } catch (error) {
+        console.error("Errore nel recupero dei dati utente:", error);
+        navigate("/login");
+      }
+    };
+    fetchUserEmail();
+  }, [navigate]);
 
   // Gestore per i cambiamenti nei campi del form
   const handleChange = (e) => {
@@ -145,8 +159,9 @@ export default function CreatePost() {
             id="author"
             name="author"
             value={post.author}
-            onChange={handleChange}
-            required
+            // onChange={handleChange}
+            // required
+            readOnly
           />
         </div>
         {/* Pulsante di invio */}

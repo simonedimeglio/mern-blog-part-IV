@@ -17,28 +17,34 @@ blog-app/
 │   │   └── claudinaryConfig.js
 │   │
 │   ├── middlewares/
+│   │   ├── controlloMail.js // NEW!
 │   │   ├── controlloMail.js
 │   │   ├── errorHandlers.js
 │   │   └── upload.js
 │   │
 │   ├── models/
 │   │   ├── Author.js
-│   │   └── BlogPost.js <-!MODIFICATO!
+│   │   └── BlogPost.js
 │   │
 │   ├── node_modules/
 │   │
 │   ├── routes/
-│   │   ├── authorRoutes.js
-│   │   └── blogPostRoutes.js <-!MODIFICATO!
+│   │   ├── authorRoutes.js // MODIFICATO!
+│   │   ├── authRoutes.js // NEW!
+│   │   └── blogPostRoutes.js
 │   │
 │   ├── uploads/
 │   │
-│   ├── .env
+│   ├── utils/
+│   │   └── jwt.js // NEW!
+│   │
+│   ├── .env // MODIFICATO!
 │   ├── .gitignore
+│   ├── keyGenerator.js // NEW!
 │   ├── MIDDLEWARES.md
 │   ├── package-lock.json
 │   ├── package.json
-│   └── server.js
+│   └── server.js // MODIFICATO!
 │
 └── frontend/
     ├── node_modules/
@@ -56,11 +62,11 @@ blog-app/
     │   │   ├── CreatePost.jsx
     │   │   ├── Home.css
     │   │   ├── Home.jsx
-    │   │   ├── PostDetail.css <-!MODIFICATO!
-    │   │   └── PostDetail.jsx <-!MODIFICATO!
+    │   │   ├── PostDetail.css
+    │   │   └── PostDetail.jsx
     │   │
     │   ├── services/
-│   │   └── api.js <-!MODIFICATO!
+│   │   └── api.js
     │   │
     │   ├── App.css
     │   ├── App.jsx
