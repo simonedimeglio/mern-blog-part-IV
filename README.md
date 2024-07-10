@@ -62,10 +62,10 @@ blog-app/
     │   │   ├── CreatePost.jsx // MODIFICATO!
     │   │   ├── Home.css
     │   │   ├── Home.jsx
-    │   │   ├── Login.jsx
+    │   │   ├── Login.jsx // NEW!
     │   │   ├── PostDetail.css
     │   │   ├── PostDetail.jsx // MODIFICATO!
-    │   │   └── Register.jsx 
+    │   │   └── Register.jsx // NEW!
     │   │
     │   ├── services/
 │   │   └── api.js // MODIFICATO!
