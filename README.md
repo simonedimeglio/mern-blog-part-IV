@@ -55,21 +55,23 @@ blog-app/
     ├── src/
     │   ├── components/
     │   │   ├── Navbar.jsx
-    │   │   └── Navbar.css
+    │   │   └── Navbar.css // MODIFICATO!
     │   │
     │   ├── pages/
     │   │   ├── CreatePost.css
-    │   │   ├── CreatePost.jsx
+    │   │   ├── CreatePost.jsx // MODIFICATO!
     │   │   ├── Home.css
     │   │   ├── Home.jsx
+    │   │   ├── Login.jsx
     │   │   ├── PostDetail.css
-    │   │   └── PostDetail.jsx
+    │   │   ├── PostDetail.jsx // MODIFICATO!
+    │   │   └── Register.jsx 
     │   │
     │   ├── services/
-│   │   └── api.js
+│   │   └── api.js // MODIFICATO!
     │   │
     │   ├── App.css
-    │   ├── App.jsx
+    │   ├── App.jsx // MODIFICATO!
     │   ├── index.css
     │   └── main.jsx
     │
