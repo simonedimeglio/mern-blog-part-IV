@@ -17,7 +17,7 @@ blog-app/
 │   │   └── claudinaryConfig.js
 │   │
 │   ├── middlewares/
-│   │   ├── controlloMail.js // NEW!
+│   │   ├── authMiddleware.js // NEW!
 │   │   ├── controlloMail.js
 │   │   ├── errorHandlers.js
 │   │   └── upload.js
